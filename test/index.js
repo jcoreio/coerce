@@ -59,7 +59,7 @@ tests(coerceTo.string, [
   [true, 'true'],
   [{ foo: [1, 2, 3] }, '{"foo":[1,2,3]}'],
   [[1, 2, 3], '[1,2,3]'],
-  [new Date('Jan 1 2020'), '2020-01-01T06:00:00.000Z'],
+  [new Date('Jan 1 2020'), new Date('Jan 1 2020').toISOString()],
 ])
 
 tests(coerceTo.boolean, [
