@@ -1,0 +1,10 @@
+// @flow
+
+declare export function coerceToNumber(x: mixed): number | null
+declare export function coerceToString(x: mixed): string | null
+declare export function coerceToBoolean(x: mixed): boolean | null
+declare export var coerceTo: {
+  number: typeof coerceToNumber,
+  string: typeof coerceToString,
+  boolean: typeof coerceToBoolean,
+}
