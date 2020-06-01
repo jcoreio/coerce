@@ -6,7 +6,7 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![npm version](https://badge.fury.io/js/%40jcoreio%2Fcoerce.svg)](https://badge.fury.io/js/%40jcoreio%2Fcoerce)
 
-Our company standard JS primitive type coercions
+Our company standard JS type coercions for time series values
 
 # API
 
