@@ -36,6 +36,8 @@ tests(coerceTo.number, [
   ['24.5e3', 24.5e3],
   ['Infinity', Infinity],
   ['-Infinity', -Infinity],
+  ['foob', null],
+  ['NaN', NaN],
   [false, 0],
   [true, 1],
   [new Date(12345), 12345],

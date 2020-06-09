@@ -1,6 +1,13 @@
 'use strict'
 
 function coerceToNumber(x) {
+  if (typeof x === 'string') {
+    var parsed = Number(x)
+    if (isNaN(parsed) || x === '') {
+      return x.toLowerCase() === 'nan' ? NaN : null
+    }
+    return parsed
+  }
   return x == null ||
     x === '' ||
     (typeof x === 'object' && !(x instanceof Date))

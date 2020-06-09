@@ -21,7 +21,7 @@ console.log(coerceToNumber(true)) // 1
 
 ### Rules:
 
-- `null`, `undefined` and empty string get coerced to `null`
+- `null`, `undefined`, or string that isn't a valid number literal get coerced to `null`
 - `Date` gets coerced to timestamp
 - Any other object gets coerced to `null`
 - Any other primitive value gets coerced with `Number(x)`
