@@ -1,12 +1,16 @@
 'use strict'
 
 function coerceToNumber(x) {
-  if (typeof x === 'string') {
-    var parsed = Number(x)
-    if (isNaN(parsed) || x === '') {
-      return x.toLowerCase() === 'nan' ? NaN : null
+  switch (typeof x) {
+    case 'bigint':
+      return x
+    case 'string': {
+      var parsed = Number(x)
+      if (isNaN(parsed) || x === '') {
+        return x.toLowerCase() === 'nan' ? NaN : null
+      }
+      return parsed
     }
-    return parsed
   }
   return x == null ||
     x === '' ||
@@ -42,6 +46,7 @@ function coerceToBoolean(x) {
           return null
       }
     case 'number':
+    case 'bigint':
       return Boolean(x)
     case 'boolean':
       return x

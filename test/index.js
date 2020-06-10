@@ -3,7 +3,7 @@ var coerceTo = require('..').coerceTo
 
 function stringify(x) {
   if (x === undefined) return 'undefined'
-  if (typeof x === 'number' && !Number.isFinite(x)) return String(x)
+  if (typeof x === 'number' || typeof x === 'bigint') return String(x)
   return JSON.stringify(x)
 }
 
@@ -24,6 +24,7 @@ function tests(fn, cases) {
 tests(coerceTo.number, [
   [0, 0],
   [1, 1],
+  [1n, 1n],
   [-1, -1],
   [NaN, NaN],
   [Infinity, Infinity],
@@ -51,6 +52,7 @@ tests(coerceTo.string, [
   ['24.5e3', '24.5e3'],
   [0, '0'],
   [1, '1'],
+  [1n, '1'],
   [NaN, 'NaN'],
   [Infinity, 'Infinity'],
   [-Infinity, '-Infinity'],
@@ -69,6 +71,8 @@ tests(coerceTo.boolean, [
   [true, true],
   [0, false],
   [1, true],
+  [0n, false],
+  [1000n, true],
   [-1, true],
   [2, true],
   [NaN, null],
