@@ -26,6 +26,42 @@ console.log(coerceToNumber(true)) // 1
 - Any other object gets coerced to `null`
 - Any other primitive value gets coerced with `Number(x)`
 
+## `coerceToBigInt(x: any): bigint | null`
+
+Coerces the given value to a bigint.
+
+```
+const { coerceToBigInt } = require('@jcoreio/coerce')
+console.log(coerceToBigInt(true)) // 1n
+```
+
+### Rules:
+
+- `null`, `undefined`, or string that isn't a valid number literal get coerced to `null`
+- `Date` gets coerced to timestamp bigint
+- Any other object gets coerced to `null`
+- Any other primitive value gets coerced with `BigInt(x)`
+  - numbers get rounded first
+  - if `BigInt(string)` fails, uses `BigInt(coerceToNumber(string))`
+
+## `coerceToNumberOrBigInt(x: any): bigint | null`
+
+Coerces the given value to a number or bigint, whichever is more suitable.
+
+```
+const { coerceToNumberOrBigInt } = require('@jcoreio/coerce')
+console.log(coerceToNumberOrBigInt('25e4')) // 250000
+console.log(coerceToNumberOrBigInt('9007199254740992')) // 9007199254740992n
+```
+
+### Rules:
+
+- `null`, `undefined`, or string that isn't a valid number literal get coerced to `null`
+- integer string literals outside the safe integer range get coerced to bigint
+- `Date` gets coerced to timestamp number
+- Any other object gets coerced to `null`
+- Any other primitive value gets coerced with `Number(x)`
+
 ## `coerceToString(x: any): string | null`
 
 Coerces the given value to a string.
@@ -58,7 +94,7 @@ console.log(coerceToBoolean(1)) // true
 - Any number besides `NaN` gets coerced with `Boolean(x)`
 - Any other non-boolean value gets coerced to `null`
 
-## `coerceTo['number' | 'string' | 'boolean']`
+## `coerceTo['number' | 'bigint' | 'numberOrBigInt' | 'string' | 'boolean']`
 
 This is just a map from the type name to the coercion function:
 

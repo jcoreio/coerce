@@ -3,7 +3,7 @@
 function coerceToNumber(x) {
   switch (typeof x) {
     case 'bigint':
-      return x
+      return Number(x)
     case 'string': {
       var parsed = Number(x)
       if (isNaN(parsed) || x === '') {
@@ -11,12 +11,69 @@ function coerceToNumber(x) {
       }
       return parsed
     }
+    case 'object':
+      if (x == null || !(x instanceof Date)) return null
+      break
+    case 'undefined':
+      return null
   }
-  return x == null ||
-    x === '' ||
-    (typeof x === 'object' && !(x instanceof Date))
-    ? null
-    : Number(x)
+  return Number(x)
+}
+
+function coerceToBigInt(x) {
+  switch (typeof x) {
+    case 'bigint':
+      return x
+    case 'string':
+      if (x === '') return null
+      break
+    case 'object':
+      if (x == null || !(x instanceof Date)) return null
+      break
+    case 'undefined':
+      return null
+    case 'number':
+      x = Math.round(x)
+      break
+  }
+  try {
+    return BigInt(x)
+  } catch (e) {
+    if (typeof x === 'string') return coerceToBigInt(coerceToNumber(x))
+    return null
+  }
+}
+
+function coerceToNumberOrBigInt(x) {
+  switch (typeof x) {
+    case 'number':
+    case 'bigint':
+      return x
+    case 'string': {
+      if (x === '') return null
+      const parsed = Number(x)
+      if (isNaN(parsed) || x === '') {
+        return x.toLowerCase() === 'nan' ? NaN : null
+      }
+      if (
+        parsed < Number.MIN_SAFE_INTEGER ||
+        parsed > Number.MAX_SAFE_INTEGER
+      ) {
+        try {
+          return BigInt(x)
+        } catch (e) {
+          return parsed
+        }
+      }
+      break
+    }
+    case 'object':
+      if (x == null || !(x instanceof Date)) return null
+      break
+    case 'undefined':
+      return null
+  }
+  return Number(x)
 }
 
 function coerceToString(x) {
@@ -56,10 +113,14 @@ function coerceToBoolean(x) {
 }
 
 exports.coerceToNumber = coerceToNumber
+exports.coerceToNumberOrBigInt = coerceToNumberOrBigInt
 exports.coerceToString = coerceToString
 exports.coerceToBoolean = coerceToBoolean
+exports.coerceToBigInt = coerceToBigInt
 exports.coerceTo = {
   number: coerceToNumber,
+  numberOrBigInt: coerceToNumberOrBigInt,
   string: coerceToString,
   boolean: coerceToBoolean,
+  bigint: coerceToBigInt,
 }

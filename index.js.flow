@@ -1,10 +1,14 @@
 // @flow
 
 declare export function coerceToNumber(x: mixed): number | null
+declare export function coerceToBigInt(x: mixed): any
+declare export function coerceToNumberOrBigInt(x: mixed): any
 declare export function coerceToString(x: mixed): string | null
 declare export function coerceToBoolean(x: mixed): boolean | null
 declare export var coerceTo: {
   number: typeof coerceToNumber,
+  bigint: typeof coerceToBigInt,
+  numberOrBigInt: typeof coerceToNumberOrBigInt,
   string: typeof coerceToString,
   boolean: typeof coerceToBoolean,
 }
